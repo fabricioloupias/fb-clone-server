@@ -5,4 +5,5 @@ export interface User {
     photoURL: string | null;
     providerId: string
     uid: string;
+    friends: string[];
 }

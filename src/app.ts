@@ -4,18 +4,23 @@ import cors from 'cors';
 import admin from 'firebase-admin';
 import { AuthController } from './controllers/auth.controller';
 import dotenv from 'dotenv';
+import { PostController } from './controllers/post.controller';
+import { UserController } from './controllers/user.controller';
 
 class App {
     public app: Application;
-    private serviceAccount = require("../key/fb-clone-server-373e0-firebase-adminsdk-b9qtj-833e1ac085.json");
     public authController: AuthController;
+    public postController: PostController;
+    public userController: UserController;
 
     constructor() {
         dotenv.config();
         this.app = express();
-        this.setConfig();
         this._setfirebaseConfig();
+        this.setConfig();
         this.authController = new AuthController(this.app);
+        this.postController = new PostController(this.app);
+        this.userController = new UserController(this.app);
     }
 
     private setConfig() {
@@ -24,7 +29,7 @@ class App {
 
         //Allows us to receive requests with data in x-www-form-urlencoded format
         this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-
+        
         //Enables cors   
         this.app.use(cors());
     }

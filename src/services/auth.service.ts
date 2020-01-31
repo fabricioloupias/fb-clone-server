@@ -25,14 +25,20 @@ export class AuthService {
             .then(user => {
                 this.userService.saveUserInDB(user)
                     .then(response => {
-                        res.send(response)
+                        res.send({
+                            message: 'User saved succesfully',
+                        })
                     })
                     .catch(error => {
-                        res.send(error)
+                        res.send({
+                            message: error
+                        })
                     })
             })
             .catch((error) => {
-                res.send(error)
+                res.send({
+                    message: error
+                })
             })
 
     }
