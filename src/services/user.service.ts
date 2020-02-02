@@ -9,6 +9,23 @@ export class UserService {
     public saveUserInDB = (user: admin.auth.UserRecord) => {
         return this.usersCollection.doc(user.uid)
             .set(user)
+
+    }
+
+    public checkIfUserExists = (userId: string) => {
+        return this.usersCollection.doc(userId)
+            .get()
+            .then(docSnapshot => {
+                return docSnapshot.exists;
+            })
+            .catch(error => {
+                return null
+            })
+    }
+
+    public getUserData = async (userId: string) => {
+        let user = await this.usersCollection.doc(userId).get();
+        return user.data();
     }
 
     public getUserFriends = (userId: string) => {
@@ -17,10 +34,14 @@ export class UserService {
             .where('isFollowing', '==', true)
             .get()
             .then(querySnapshot => {
-                var data: string[] = querySnapshot.docs.map(documentSnapshot => {
+                let data: string[] = querySnapshot.docs.map(documentSnapshot => {
                     return documentSnapshot.id;
                 });
                 return data
+            })
+            .catch(error => {
+                let data: string[] = [];
+                return data;
             })
     }
 

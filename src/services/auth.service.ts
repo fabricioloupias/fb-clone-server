@@ -23,17 +23,26 @@ export class AuthService {
             photoURL
         })
             .then(user => {
-                this.userService.saveUserInDB(user)
-                    .then(response => {
+                this.userService.checkIfUserExists(user.uid)
+                    .then(isExist => {
+                        if (!isExist) {
+                            this.userService.saveUserInDB(user)
+                                .then(response => {
+                                    res.send({
+                                        message: 'User saved succesfully',
+                                    })
+                                })
+                                .catch(error => {
+                                    res.send({
+                                        message: error
+                                    })
+                                })
+                        }
                         res.send({
-                            message: 'User saved succesfully',
+                            message: 'User has exist'
                         })
                     })
-                    .catch(error => {
-                        res.send({
-                            message: error
-                        })
-                    })
+
             })
             .catch((error) => {
                 res.send({

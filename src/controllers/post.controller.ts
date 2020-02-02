@@ -13,5 +13,6 @@ export class PostController{
 
     public routes(){
         this.app.route(`${PostController.POSTS_PATH}/getPostsFriends`).post(this.postService.getPosts);
+        this.app.route(`${PostController.POSTS_PATH}`).post(this.postService.addPost);
     }
 }
