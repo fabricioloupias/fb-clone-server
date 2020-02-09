@@ -5,12 +5,15 @@
   "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && nodemon",
+    "start": "node dist/server.js",
+    "dev": "nodemon -e ts --exec \"npm run build && npm run start\"",
     "build": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/algoliasearch": "^3.34.10",
+    "algoliasearch": "^4.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

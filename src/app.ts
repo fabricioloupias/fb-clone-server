@@ -6,12 +6,15 @@ import { AuthController } from './controllers/auth.controller';
 import dotenv from 'dotenv';
 import { PostController } from './controllers/post.controller';
 import { UserController } from './controllers/user.controller';
+import algoliasearch, { SearchClient, SearchIndex }  from 'algoliasearch';
 
 class App {
     public app: Application;
     public authController: AuthController;
     public postController: PostController;
     public userController: UserController;
+    private algoliaClient: SearchClient;
+    private algoliaIndex: SearchIndex;
 
     constructor() {
         dotenv.config();
@@ -29,7 +32,7 @@ class App {
 
         //Allows us to receive requests with data in x-www-form-urlencoded format
         this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-        
+
         //Enables cors   
         this.app.use(cors());
     }
@@ -44,6 +47,10 @@ class App {
             credential: admin.credential.cert(serviceAccount),
             databaseURL: "https://fb-clone-server-373e0.firebaseio.com"
         });
+    }
+
+    public getAlgoliaSearch() {
+        return algoliasearch(`${process.env.ALGOLIA_APP_ID}`, `${process.env.ALGOLIA_APP_KEY}`);
     }
 }
 

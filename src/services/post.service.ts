@@ -72,6 +72,7 @@ export class PostService {
         return this.postCollection
             .doc(userId)
             .collection('/userPosts')
+            .limit(15)
             .get()
             .then(querySnapshot => {
                 let data: FirebaseFirestore.DocumentData[] = []
