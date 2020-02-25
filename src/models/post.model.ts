@@ -4,6 +4,7 @@ export interface Post{
     uid: string;
     title: string;
     description: string;
-    userId: string;
+    postId: string;
     createdAt: admin.firestore.Timestamp;
+    user: FirebaseFirestore.DocumentData
 }

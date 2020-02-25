@@ -62,11 +62,47 @@ export class UserService {
                 message: 'Error while trying search user'
             })
         }
+    }
+
+    public fetchUser = async (req: Request, res: Response) => {
+        const { userId } = req.params;
+        try {
+            const user = (await this.usersCollection.doc(userId).get()).data();
+            return res.send({
+                user
+            })
+        } catch (error) {
+            console.log(error)
+            res.send({
+                message: 'Error while trying search user'
+            })
+        }
+    }
+
+    public followUser = async (req: Request, res: Response) => {
+        const { uid, userFollowedId } = req.body;
+        console.log(uid, userFollowedId)
+        try {
+            this.followingCollection
+                .doc(uid)
+                .collection('/userFollowing')
+                .doc(userFollowedId)
+                .set({
+                    isFollowing: true
+                })
+            res.status(201).send({
+                message: 'User followed successfully'
+            })   
+        } catch (error) {
+            res.status(404).send({
+                message: 'Error while trying follow user'
+            })
+        }
 
     }
 
     public getUserData = async (userId: string) => {
-        let user = await this.usersCollection.doc(userId).get();
+        const user = await this.usersCollection.doc(userId).get();
         return user.data();
     }
 

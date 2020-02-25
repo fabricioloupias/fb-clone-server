@@ -17,5 +17,7 @@ export class UserController{
         this.app.route(`${UserController.USERS_PATH}`).post(this.userService.saveUserInDB);
         this.app.route(`${UserController.USERS_PATH}/getFriends`).post(this.userService.getUserFriends)
         this.app.route(`${UserController.USERS_PATH}/searchUser`).post(this.userService.searchUser)
+        this.app.route(`${UserController.USERS_PATH}/follow-user`).post(this.userService.followUser)
+        this.app.route(`${UserController.USERS_PATH}/:userId`).get(this.userService.fetchUser)
     }
 }
